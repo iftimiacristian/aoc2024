@@ -40,7 +40,10 @@ impl DayContext {
         PathBuf::from(path)
     }
 
-    pub fn load_input(&self, mode: InputMode) -> Result<String, std::io::Error> {
+    pub fn load_input(&self, mode: InputMode) -> Result<std::io::BufReader<std::fs::File>, std::io::Error> {
+        use std::fs::File;
+        use std::io::BufReader;
+
         let relative_path = self.get_input_file_path(mode);
 
         // Get the path to the common crate's Cargo.toml
@@ -51,7 +54,8 @@ impl DayContext {
 
         let absolute_path = workspace_root.join(relative_path);
 
-        std::fs::read_to_string(absolute_path)
+        let file = File::open(absolute_path)?;
+        Ok(BufReader::new(file))
     }
 }
 

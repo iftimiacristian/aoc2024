@@ -35,12 +35,10 @@ fn run_day(registry: &DayRegistry, day: u8) {
         let solution = builder(day_context); // Use the builder to create the solution
 
         // Run Part 1
-        let result_part1 = solution.part1();
-        println!("Day {} Part 1 Result: {}", day, result_part1);
+        solution.part1();
 
         // Run Part 2
-        let result_part2 = solution.part2();
-        println!("Day {} Part 2 Result: {}", day, result_part2);
+        solution.part2();
     } else {
         println!("Day {} not implemented yet or not registered.", day);
     }
