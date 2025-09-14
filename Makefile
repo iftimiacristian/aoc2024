@@ -7,7 +7,7 @@ DAY ?=
 DAY_FMT = $(shell printf "%02d" $(DAY))
 
 # --- Cargo Commands ---
-CARGO_RUN   = cargo run --workspace
+CARGO_RUN   = cargo run
 CARGO_BUILD = cargo build --workspace
 CARGO_TEST  = cargo test --workspace
 CARGO_CHECK = cargo check --workspace
@@ -38,8 +38,13 @@ check:
 
 ## Run the solution for a specific day (e.g., make run DAY=5)
 run:
+	@echo "Running solution..."
+ifeq ($(DAY),)
+	@$(CARGO_RUN) --bin runner
+else
 	@echo "Running solution for Day $(DAY_FMT)..."
 	@$(CARGO_RUN) --bin runner -- $(DAY_FMT)
+endif
 
 ## Run all tests in the workspace
 test:

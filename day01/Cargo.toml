@@ -1,8 +1,7 @@
 [package]
-name = "runner"
+name = "day01"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-day01 = { path = "../day01" }
 common = { path = "../common" }

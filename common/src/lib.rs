@@ -1,14 +1,11 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+// common/src/lib.rs
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod enums;
+mod day_trait;
+mod day_context;
+mod registry;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub use enums::{Part, InputMode};
+pub use day_trait::Day;
+pub use day_context::DayContext;
+pub use registry::{DaySolutionBuilder, DayRegistry};
