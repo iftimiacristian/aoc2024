@@ -1,5 +1,5 @@
 use std::env;
-use common::{Day, DayContext, DayRegistry}; // Added DayRegistry, DaySolutionBuilder
+use common::{DayContext, DayRegistry}; // Added DayRegistry, DaySolutionBuilder
 use day01::build_day_01_solution; // Import the builder function
 
 fn main() {

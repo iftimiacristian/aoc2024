@@ -24,7 +24,7 @@ impl DayContext {
         self.part = Part::Two;
     }
 
-    fn get_input_file_path(&self, mode: InputMode) -> PathBuf {
+    pub fn get_input_file_path(&self, mode: InputMode) -> PathBuf {
         let suffix = match mode {
             InputMode::Example => "example",
             InputMode::Full => "full",
@@ -41,8 +41,17 @@ impl DayContext {
     }
 
     pub fn load_input(&self, mode: InputMode) -> Result<String, std::io::Error> {
-        let path = self.get_input_file_path(mode);
-        std::fs::read_to_string(path)
+        let relative_path = self.get_input_file_path(mode);
+
+        // Get the path to the common crate's Cargo.toml
+        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+
+        // Navigate up to the workspace root (common is one level down from root)
+        let workspace_root = manifest_dir.parent().unwrap();
+
+        let absolute_path = workspace_root.join(relative_path);
+
+        std::fs::read_to_string(absolute_path)
     }
 }
 

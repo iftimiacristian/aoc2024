@@ -46,9 +46,14 @@ else
 	@$(CARGO_RUN) --bin runner -- $(DAY_FMT)
 endif
 
+## Run tests for a specific day (e.g., make test-day DAY=1)
+test-day:
+	@echo "Running tests for Day $(DAY_FMT)..."
+	@$(CARGO_TEST) -p day$(DAY_FMT)
+
 ## Run all tests in the workspace
 test:
-	@echo "Running tests..."
+	@echo "Running all tests in workspace..."
 	@$(CARGO_TEST)
 
 ## Clean the target directory
