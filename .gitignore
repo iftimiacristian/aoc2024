@@ -6,3 +6,4 @@
 
 # Ignore backup files that some editors create
 **/*.rs.bk
+/.idea/
