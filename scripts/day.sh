@@ -85,10 +85,10 @@ if [[ "$COMMAND" == "add" ]]; then
 
     echo "4. Creating input files for Part 1 and Part 2 in '${INPUTS_DIR}/${DAY_DIR}'..."
     mkdir -p "${INPUTS_DIR}/${DAY_DIR}"
-    touch "${INPUTS_DIR}/${DAY_DIR}/example1.txt"
-    touch "${INPUTS_DIR}/${DAY_DIR}/full1.txt"
-    touch "${INPUTS_DIR}/${DAY_DIR}/example2.txt"
-    touch "${INPUTS_DIR}/${DAY_DIR}/full2.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/1.example.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/1.full.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/2.example.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/2.full.txt"
 
     echo "--- Day ${DAY_FMT} added successfully! ---"
 

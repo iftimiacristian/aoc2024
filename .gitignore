@@ -2,7 +2,7 @@
 /target
 
 # Ignore personalized puzzle inputs, but keep the example files
-**/inputs/*/full.txt
+**/inputs/*/*.full.txt
 
 # Ignore backup files that some editors create
 **/*.rs.bk
