@@ -77,16 +77,18 @@ if [[ "$COMMAND" == "add" ]]; then
     echo "1. Creating crate '${DAY_DIR}' (and adding to workspace)..."
     cargo new "${DAY_DIR}" --lib --vcs none
 
-    echo "2. Adding '${COMMON_CRATE}' dependency to '${DAY_DIR}/Cargo.toml' நான"
+    echo "2. Adding '${COMMON_CRATE}' dependency to '${DAY_DIR}/Cargo.toml' ..."
     echo "common = { path = \"../${COMMON_CRATE}\" }" >> "${DAY_DIR}/Cargo.toml"
 
     echo "3. Adding '${DAY_DIR}' dependency to '${RUNNER_CARGO_TOML}'..."
     sed -i "/^\\[dependencies\\]/a ${DAY_DIR} = { path = \"../${DAY_DIR}\" }" "$RUNNER_CARGO_TOML"
 
-    echo "4. Creating input files in '${INPUTS_DIR}/${DAY_DIR}'..."
+    echo "4. Creating input files for Part 1 and Part 2 in '${INPUTS_DIR}/${DAY_DIR}'..."
     mkdir -p "${INPUTS_DIR}/${DAY_DIR}"
-    touch "${INPUTS_DIR}/${DAY_DIR}/example.txt"
-    touch "${INPUTS_DIR}/${DAY_DIR}/full.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/example1.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/full1.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/example2.txt"
+    touch "${INPUTS_DIR}/${DAY_DIR}/full2.txt"
 
     echo "--- Day ${DAY_FMT} added successfully! ---"
 
