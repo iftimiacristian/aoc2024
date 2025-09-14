@@ -1,9 +1,9 @@
 # Makefile for Advent of Code 2024
 
 # --- Variables ---
-# Default to day 1 if not specified
-DAY ?= 1
-# Pad the day number to two digits (e.g., 1 -> 01)
+# If DAY is not passed, it will be empty. Used for new-day auto-increment.
+DAY ?=
+# Pad the day number to two digits (e.g., 1 -> 01). Only works if DAY is set.
 DAY_FMT = $(shell printf "%02d" $(DAY))
 
 # --- Cargo Commands ---
@@ -51,7 +51,7 @@ clean:
 	@echo "Cleaning workspace..."
 	@$(CARGO_CLEAN)
 
-## Create a new day crate (e.g., make new-day DAY=5)
+## Create a new day crate. Auto-increments if DAY is not set (e.g., make new-day, or make new-day DAY=5)
 new-day:
 	@./scripts/day.sh add $(DAY)
 
