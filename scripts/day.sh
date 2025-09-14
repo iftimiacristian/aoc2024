@@ -112,18 +112,18 @@ elif [[ "$COMMAND" == "remove" ]]; then
     # 1. Remove the member string itself.
     sed -i 's/"'${DAY_DIR}'"//' "${ROOT_CARGO_TOML}"
     # 2. Clean up potential leftover comma issues.
-    sed -i 's/,[[[:space:]]]*,/,/g' "${ROOT_CARGO_TOML}"
-    sed -i 's/[[[:space:]]]*,/]/g' "${ROOT_CARGO_TOML}"
-    sed -i 's/,[[[:space:]]]*]/]/g' "${ROOT_CARGO_TOML}"
+    sed -i 's/,[[:space:]]*,/,/g' "${ROOT_CARGO_TOML}"
+    sed -i 's/\\[[[:space:]]*,/\\[ /g' "${ROOT_CARGO_TOML}"
+    sed -i 's/,[[:space:]]*\\]/ ]/g' "${ROOT_CARGO_TOML}"
 
     echo "3. Verifying and updating dependencies..."
     cargo check
 
     echo "4. Removing directory '${DAY_DIR}'..."
-    rm -rf "${DAY_DIR}"
+    rm -rf "${DAY_DIR:?}"
     
     echo "5. Removing input files from '${INPUTS_DIR}/${DAY_DIR}'..."
-    rm -rf "${INPUTS_DIR}/${DAY_DIR}"
+    rm -rf "${INPUTS_DIR:?}/${DAY_DIR:?}"
 
     echo "--- Day ${DAY_FMT} removed successfully! ---"
 
