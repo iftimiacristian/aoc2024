@@ -1,13 +1,19 @@
 // common/src/registry.rs
 
-use std::collections::HashMap;
-use super::day_trait::Day;
 use super::day_context::DayContext;
+use super::day_trait::Day;
+use std::collections::HashMap;
 
 pub type DaySolutionBuilder = fn(DayContext) -> Box<dyn Day>;
 
 pub struct DayRegistry {
     builders: HashMap<u8, DaySolutionBuilder>,
+}
+
+impl Default for DayRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl DayRegistry {
@@ -26,7 +32,7 @@ impl DayRegistry {
     }
 
     pub fn get_all_days(&self) -> Vec<u8> {
-        let mut days: Vec<u8> =  self.builders.keys().cloned().collect();
+        let mut days: Vec<u8> = self.builders.keys().cloned().collect();
         days.sort_unstable();
         days
     }

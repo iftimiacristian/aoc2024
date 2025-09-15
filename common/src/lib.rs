@@ -1,11 +1,13 @@
 // common/src/lib.rs
 
-mod enums;
-mod day_trait;
 mod day_context;
+mod day_trait;
+mod enums;
 mod registry;
 
-pub use enums::{Part, InputMode};
-pub use day_trait::Day;
 pub use day_context::DayContext;
-pub use registry::{DaySolutionBuilder, DayRegistry};
+pub use day_trait::Day;
+pub use enums::{InputMode, Part};
+pub use registry::{DayRegistry, DaySolutionBuilder};
+
+pub use std::time::Duration;

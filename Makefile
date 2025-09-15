@@ -14,7 +14,7 @@ CARGO_CHECK = cargo check --workspace
 CARGO_CLEAN = cargo clean
 
 # --- Phony Targets ---
-.PHONY: help all build check run test clean new-day remove-day last-day
+.PHONY: help all build check fmt run test clean new-day remove-day last-day
 
 # --- Main Targets ---
 
@@ -31,10 +31,20 @@ build:
 	@echo "Building workspace..."
 	@$(CARGO_BUILD)
 
-## Check all crates for errors without building
+## Check: clippy, fmt, tests
 check:
-	@echo "Checking workspace..."
-	@$(CARGO_CHECK)
+	@echo "🔍 Running clippy (all targets)..."
+	@cargo clippy --workspace --all-targets --all-features -- -D warnings
+	@echo "📐 Checking code formatting..."
+	@cargo fmt --all -- --check
+	@echo "🧪 Running all tests..."
+	@cargo test --workspace --all-features
+	@echo "✅ All checks passed!"
+
+## Fix formatting automatically
+fmt:
+	@echo "🔧 Fixing code formatting..."
+	@cargo fmt --all
 
 ## Run the solution for a specific day (e.g., make run DAY=5)
 run:

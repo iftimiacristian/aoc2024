@@ -1,7 +1,7 @@
 // common/src/day_context.rs
 
+use super::enums::{InputMode, Part};
 use std::path::PathBuf;
-use super::enums::{Part, InputMode};
 
 pub struct DayContext {
     pub day: u8,
@@ -40,7 +40,10 @@ impl DayContext {
         PathBuf::from(path)
     }
 
-    pub fn load_input(&self, mode: InputMode) -> Result<std::io::BufReader<std::fs::File>, std::io::Error> {
+    pub fn load_input(
+        &self,
+        mode: InputMode,
+    ) -> Result<std::io::BufReader<std::fs::File>, std::io::Error> {
         use std::fs::File;
         use std::io::BufReader;
 
@@ -97,7 +100,7 @@ mod tests {
                 part: Part::Two,
                 mode: InputMode::Example,
                 expected: "inputs/day20/2.example.txt",
-            }
+            },
         ];
 
         for case in test_cases {
@@ -108,7 +111,8 @@ mod tests {
 
             assert_eq!(
                 actual_path, expected_path_buf,
-                "Failed for day={}, part={:?}, mode={:?}", case.day, case.part, case.mode
+                "Failed for day={}, part={:?}, mode={:?}",
+                case.day, case.part, case.mode
             );
         }
     }
