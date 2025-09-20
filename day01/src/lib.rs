@@ -1,8 +1,7 @@
 mod input;
 mod solution;
 
-use common::{Day, DayContext, InputMode};
-use std::io::Read;
+use common::{Day, DayContext, InputMode, ParseError};
 
 pub use solution::Day01;
 
@@ -11,22 +10,16 @@ pub struct Day01Solution {
     solution: Day01,
 }
 
-impl Day01Solution {
-    /// Create a new Day01Solution by loading and parsing input
-    pub fn new(context: DayContext, mode: InputMode) -> Result<Self, Box<dyn std::error::Error>> {
-        let mut reader = context.load_input(mode)?;
-        let mut input_content = String::new();
-        reader.read_to_string(&mut input_content)?;
-
-        let (left, right) = input::parse_input(&input_content)?;
-
+impl Day for Day01Solution {
+    fn parse_input(input: &str) -> Result<Self, ParseError>
+    where
+        Self: Sized,
+    {
+        let (left, right) = input::parse_input(input)?;
         let solution = Day01::new(left, right);
-
         Ok(Day01Solution { solution })
     }
-}
 
-impl Day for Day01Solution {
     fn part1(&self) -> String {
         self.solution.part1().to_string()
     }
@@ -45,6 +38,6 @@ impl Day for Day01Solution {
     }
 }
 
-pub fn build_day_01_solution(context: common::DayContext) -> Box<dyn common::Day> {
+pub fn build_day_01_solution(context: DayContext) -> Box<dyn Day> {
     Box::new(Day01Solution::new(context, InputMode::Full).expect("Failed to create Day 1 solution"))
 }

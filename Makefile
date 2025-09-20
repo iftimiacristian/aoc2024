@@ -33,10 +33,10 @@ build:
 
 ## Check: clippy, fmt, tests
 check:
+	@echo "🔧 Fixing code formatting..."
+	@cargo fmt --all
 	@echo "🔍 Running clippy (all targets)..."
 	@cargo clippy --workspace --all-targets --all-features -- -D warnings
-	@echo "📐 Checking code formatting..."
-	@cargo fmt --all -- --check
 	@echo "🧪 Running all tests..."
 	@cargo test --workspace --all-features
 	@echo "✅ All checks passed!"

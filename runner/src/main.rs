@@ -1,5 +1,6 @@
 use common::{DayContext, DayRegistry};
 use day01::build_day_01_solution;
+use day02::build_day_02_solution;
 use std::env;
 
 fn main() {
@@ -7,6 +8,7 @@ fn main() {
 
     let mut registry = DayRegistry::new();
     registry.register_builder(1, build_day_01_solution);
+    registry.register_builder(2, build_day_02_solution);
 
     let day_to_run: Option<u8> = args.get(1).and_then(|s| s.parse().ok());
 

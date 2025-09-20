@@ -1,6 +1,6 @@
 [workspace]
 members = [
     "runner",
-    "common", "day01",
+    "common", "day01", "day02",
 ]
 resolver = "2"
