@@ -1,3 +1,10 @@
+#[derive(PartialEq)]
+enum Direction {
+    Ascending,
+    Descending,
+    Mixed,
+}
+
 pub struct Report {
     values: Vec<i32>,
 }
@@ -7,6 +14,34 @@ impl Report {
         Self { values }
     }
 
+    fn determine_direction(values: &[i32]) -> Direction {
+        let mut has_ascending = false;
+        let mut has_descending = false;
+
+        for window in values.windows(2) {
+            let v1 = window[0];
+            let v2 = window[1];
+
+            if v1 < v2 {
+                has_ascending = true;
+            } else if v1 > v2 {
+                has_descending = true;
+            }
+
+            if has_ascending && has_descending {
+                return Direction::Mixed;
+            }
+        }
+
+        if has_ascending {
+            Direction::Ascending
+        } else if has_descending {
+            Direction::Descending
+        } else {
+            Direction::Ascending // All equal values, but handled separately
+        }
+    }
+
     fn is_slice_valid(values: &[i32]) -> bool {
         const THRESHOLD: i32 = 3;
 
@@ -14,30 +49,16 @@ impl Report {
             return true;
         }
 
-        let mut is_ascending = true;
-        let mut is_descending = true;
+        let direction = Self::determine_direction(values);
+        if direction == Direction::Mixed {
+            return false;
+        }
 
         for window in values.windows(2) {
             let v1 = window[0];
             let v2 = window[1];
 
-            if (v1 - v2).abs() > THRESHOLD {
-                return false;
-            }
-
-            if v1 == v2 {
-                return false;
-            }
-
-            if v1 > v2 {
-                is_ascending = false;
-            }
-
-            if v1 < v2 {
-                is_descending = false;
-            }
-
-            if !is_ascending && !is_descending {
+            if (v1 - v2).abs() > THRESHOLD || v1 == v2 {
                 return false;
             }
         }
@@ -55,9 +76,8 @@ impl Report {
         }
 
         for i in 0..self.values.len() {
-            let mut temp_values = self.values.clone();
-            temp_values.remove(i);
-            if Self::is_slice_valid(&temp_values) {
+            let slice = [&self.values[..i], &self.values[i+1..]].concat();
+            if Self::is_slice_valid(&slice) {
                 return true;
             }
         }
@@ -84,21 +104,11 @@ impl Day02 {
     }
 
     pub fn part1(&self) -> i32 {
-        let mut valid = 0;
-        for report in &self.reports {
-            valid += report.valid(false) as i32;
-        }
-
-        valid
+        self.reports.iter().filter(|r| r.valid(false)).count() as i32
     }
 
     pub fn part2(&self) -> i32 {
-        let mut valid = 0;
-        for report in &self.reports {
-            valid += report.valid(true) as i32;
-        }
-
-        valid
+        self.reports.iter().filter(|r| r.valid(true)).count() as i32
     }
 }
 
@@ -108,104 +118,86 @@ mod tests {
 
     struct ReportTestCase {
         values: Vec<i32>,
-        expected: bool,
+        expected_part1: bool,
+        expected_part2: bool,
+    }
+
+    fn get_test_cases() -> Vec<ReportTestCase> {
+        vec![
+            ReportTestCase {
+                values: vec![7, 6, 4, 2, 1],
+                expected_part1: true,
+                expected_part2: true,
+            },
+            ReportTestCase {
+                values: vec![1, 2, 7, 8, 9],
+                expected_part1: false,
+                expected_part2: false,
+            },
+            ReportTestCase {
+                values: vec![9, 7, 6, 2, 1],
+                expected_part1: false,
+                expected_part2: false,
+            },
+            ReportTestCase {
+                values: vec![1, 3, 2, 4, 5],
+                expected_part1: false,
+                expected_part2: true,
+            },
+            ReportTestCase {
+                values: vec![8, 6, 4, 4, 1],
+                expected_part1: false,
+                expected_part2: true,
+            },
+            ReportTestCase {
+                values: vec![1, 3, 6, 7, 9],
+                expected_part1: true,
+                expected_part2: true,
+            },
+        ]
     }
 
     #[test]
     fn test_report_valid() {
-        let test_cases = vec![
-            ReportTestCase {
-                values: vec![7, 6, 4, 2, 1],
-                expected: true,
-            },
-            ReportTestCase {
-                values: vec![1, 2, 7, 8, 9],
-                expected: false,
-            },
-            ReportTestCase {
-                values: vec![9, 7, 6, 2, 1],
-                expected: false,
-            },
-            ReportTestCase {
-                values: vec![1, 3, 2, 4, 5],
-                expected: false,
-            },
-            ReportTestCase {
-                values: vec![8, 6, 4, 4, 1],
-                expected: false,
-            },
-            ReportTestCase {
-                values: vec![1, 3, 6, 7, 9],
-                expected: true,
-            },
-        ];
+        let test_cases = get_test_cases();
+        let mut reports: Vec<Report> = Vec::new();
 
-        let mut values: Vec<Report> = Vec::new();
-
-        for case in test_cases {
+        for case in &test_cases {
             let report = Report::new(case.values.clone());
 
             assert_eq!(
                 report.valid(false),
-                case.expected,
+                case.expected_part1,
                 "Failed for {:?}",
                 case.values,
             );
 
-            values.push(report);
-        }
-
-        let solution = Day02::new(values);
-
-        assert_eq!(solution.part1(), 2)
-    }
-
-    #[test]
-    fn test_day02_part2() {
-        let test_cases = vec![
-            ReportTestCase {
-                values: vec![7, 6, 4, 2, 1],
-                expected: true,
-            },
-            ReportTestCase {
-                values: vec![1, 2, 7, 8, 9],
-                expected: false,
-            },
-            ReportTestCase {
-                values: vec![9, 7, 6, 2, 1],
-                expected: false,
-            },
-            ReportTestCase {
-                values: vec![1, 3, 2, 4, 5],
-                expected: true,
-            },
-            ReportTestCase {
-                values: vec![8, 6, 4, 4, 1],
-                expected: true,
-            },
-            ReportTestCase {
-                values: vec![1, 3, 6, 7, 9],
-                expected: true,
-            },
-        ];
-
-        let mut reports: Vec<Report> = Vec::new();
-        let mut expected_valid_count = 0;
-        for case in test_cases {
-            let report = Report::new(case.values.clone());
-            assert_eq!(
-                report.valid(true),
-                case.expected,
-                "Failed for {:?} with dampener",
-                case.values,
-            );
-            if case.expected {
-                expected_valid_count += 1;
-            }
             reports.push(report);
         }
 
         let solution = Day02::new(reports);
-        assert_eq!(solution.part2(), expected_valid_count);
+        let expected_part1_count = test_cases.iter().filter(|c| c.expected_part1).count() as i32;
+        assert_eq!(solution.part1(), expected_part1_count);
+    }
+
+    #[test]
+    fn test_day02_part2() {
+        let test_cases = get_test_cases();
+        let mut reports: Vec<Report> = Vec::new();
+
+        for case in &test_cases {
+            let report = Report::new(case.values.clone());
+            assert_eq!(
+                report.valid(true),
+                case.expected_part2,
+                "Failed for {:?} with dampener",
+                case.values,
+            );
+            reports.push(report);
+        }
+
+        let solution = Day02::new(reports);
+        let expected_part2_count = test_cases.iter().filter(|c| c.expected_part2).count() as i32;
+        assert_eq!(solution.part2(), expected_part2_count);
     }
 }
