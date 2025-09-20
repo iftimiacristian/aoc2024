@@ -76,7 +76,7 @@ impl Report {
         }
 
         for i in 0..self.values.len() {
-            let slice = [&self.values[..i], &self.values[i+1..]].concat();
+            let slice = [&self.values[..i], &self.values[i + 1..]].concat();
             if Self::is_slice_valid(&slice) {
                 return true;
             }
