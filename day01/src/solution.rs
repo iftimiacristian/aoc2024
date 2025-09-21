@@ -43,19 +43,20 @@ impl Day01 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use common::{load_example_input_for_day, Part};
 
     #[test]
     fn part1_example() {
-        let left = vec![3, 4, 2, 1, 3, 3];
-        let right = vec![4, 3, 5, 3, 9, 3];
+        let input_content = load_example_input_for_day(1, Part::One).expect("Failed to load example input");
+        let (left, right) = crate::input::parse_input(&input_content).expect("Failed to parse input");
         let solution = Day01::new(left, right);
         assert_eq!(solution.part1(), 11);
     }
 
     #[test]
     fn part2_example() {
-        let left = vec![3, 4, 2, 1, 3, 3];
-        let right = vec![4, 3, 5, 3, 9, 3];
+        let input_content = load_example_input_for_day(1, Part::Two).expect("Failed to load example input");
+        let (left, right) = crate::input::parse_input(&input_content).expect("Failed to parse input");
         let solution = Day01::new(left, right);
         assert_eq!(solution.part2(), 31);
     }

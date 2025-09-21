@@ -1,7 +1,8 @@
+use std::env;
 use common::{DayContext, DayRegistry};
 use day01::build_day_01_solution;
 use day02::build_day_02_solution;
-use std::env;
+use day03::build_day_03_solution;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -9,6 +10,7 @@ fn main() {
     let mut registry = DayRegistry::new();
     registry.register_builder(1, build_day_01_solution);
     registry.register_builder(2, build_day_02_solution);
+    registry.register_builder(3, build_day_03_solution);
 
     let day_to_run: Option<u8> = args.get(1).and_then(|s| s.parse().ok());
 
