@@ -1,0 +1,42 @@
+pub struct Day{{day_num_padded}} {
+    input: Vec<String>,
+}
+
+impl Day{{day_num_padded}} {
+    pub fn new(input: Vec<String>) -> Self {
+        Self { input }
+    }
+
+    pub fn input_size(&self) -> usize {
+        self.input.len()
+    }
+
+    pub fn part1(&self) -> i32 {
+        // TODO: Implement Part 1
+        0
+    }
+
+    pub fn part2(&self) -> i32 {
+        // TODO: Implement Part 2
+        0
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn part1_example() {
+        let input = vec!["line1".to_string(), "line2".to_string()];
+        let solution = Day{{day_num_padded}}::new(input);
+        assert_eq!(solution.part1(), 0);
+    }
+
+    #[test]
+    fn part2_example() {
+        let input = vec!["line1".to_string(), "line2".to_string()];
+        let solution = Day{{day_num_padded}}::new(input);
+        assert_eq!(solution.part2(), 0);
+    }
+}

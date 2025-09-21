@@ -1,0 +1,43 @@
+mod input;
+mod solution;
+
+use common::{Day, DayContext, InputMode, ParseError};
+
+pub use solution::Day{{day_num_padded}};
+
+/// Infrastructure adapter that bridges the pure solution logic with the AoC framework
+pub struct Day{{day_num_padded}}Solution {
+    solution: Day{{day_num_padded}},
+}
+
+impl Day for Day{{day_num_padded}}Solution {
+    fn parse_input(input: &str) -> Result<Self, ParseError>
+    where
+        Self: Sized,
+    {
+        let parsed_input = input::parse_input(input)?;
+        let solution = Day{{day_num_padded}}::new(parsed_input);
+        Ok(Day{{day_num_padded}}Solution { solution })
+    }
+
+    fn part1(&self) -> String {
+        self.solution.part1().to_string()
+    }
+
+    fn part2(&self) -> String {
+        self.solution.part2().to_string()
+    }
+
+    fn day_number(&self) -> u8 {
+        {{day_num}}
+    }
+
+    fn memory_usage_estimate(&self) -> usize {
+        // TODO: Implement memory usage estimate
+        0
+    }
+}
+
+pub fn build_day_{{day_num_padded}}_solution(context: DayContext) -> Box<dyn Day> {
+    Box::new(Day{{day_num_padded}}Solution::new(context, InputMode::Full).expect("Failed to create Day {{day_num_padded}} solution"))
+}

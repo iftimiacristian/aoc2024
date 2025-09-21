@@ -74,13 +74,10 @@ if [[ "$COMMAND" == "add" ]]; then
         exit 1
     fi
 
-    echo "1. Creating crate '${DAY_DIR}' (and adding to workspace)..."
-    cargo new "${DAY_DIR}" --lib --vcs none
+    echo "1. Generating crate '${DAY_DIR}' from template (and adding to workspace)..."
+    cargo generate --name "day${DAY_FMT}" --force --path /home/fxr/Projects/aoc2024/day_template --define day_num="${DAY_NUM}" --define day_num_padded="${DAY_FMT}"
 
-    echo "2. Adding '${COMMON_CRATE}' dependency to '${DAY_DIR}/Cargo.toml' ..."
-    echo "common = { path = \"../${COMMON_CRATE}\" }" >> "${DAY_DIR}/Cargo.toml"
-
-    echo "3. Adding '${DAY_DIR}' dependency to '${RUNNER_CARGO_TOML}'..."
+    echo "2. Adding '${DAY_DIR}' dependency to '${RUNNER_CARGO_TOML}'..."
     sed -i "/^\\[dependencies\\]/a ${DAY_DIR} = { path = \"../${DAY_DIR}\" }" "$RUNNER_CARGO_TOML"
 
     echo "4. Creating input files for Part 1 and Part 2 in '${INPUTS_DIR}/${DAY_DIR}'..."

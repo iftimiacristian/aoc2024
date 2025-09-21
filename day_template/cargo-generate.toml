@@ -1,0 +1,6 @@
+[template]
+cargo_generate_version = ">=0.18.0"
+
+[placeholders]
+day_num = { type = "string", prompt = "Enter the day number (e.g., 1, 2, 3)", default = "1" }
+day_num_padded = { type = "string", prompt = "Enter the day number (e.g., 01, 02, 03)", default = "01", regex = "^[0-9]{2}$" }
